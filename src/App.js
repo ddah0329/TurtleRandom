@@ -49,14 +49,16 @@ const RandomChoiceGame = () => {
         );
 
         if (!response.ok) {
-          throw new Error("Airtable 데이터를 가져오는데 실패했습니다");
+          throw new Error(
+            "거북이는 열심히 돌림판 제작 중! 조금만 기다려주세요!"
+          );
         }
 
         const data = await response.json();
-        
+
         // Airtable 레코드 구조에 맞게 데이터 매핑
         const formattedImages = data.records
-          .filter(record => record.fields.ImageURL) // 이미지 URL이 있는 레코드만 필터링
+          .filter((record) => record.fields.ImageURL) // 이미지 URL이 있는 레코드만 필터링
           .map((record) => ({
             id: record.id,
             src: record.fields.ImageURL,
