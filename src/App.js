@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Trophy, Volume2, VolumeX } from "lucide-react";
-
-// Airtable 설정
-const AIRTABLE_API_KEY = "patyPmcAShCtMsIWF"; // 실제 API 키로 교체해주세요
-const AIRTABLE_BASE_ID = "appLkhHLUId132fIG"; // 실제 Base ID로 교체해주세요
-const AIRTABLE_TABLE_NAME = "tblbW6hSYxW2IKTtx"; // 실제 테이블 이름으로 교체해주세요
+import { Trophy, Volume2, VolumeX, X } from "lucide-react";
+import airtableData from "./airtable_data.json";
 
 const Navbar = () => {
   return (
@@ -15,7 +11,7 @@ const Navbar = () => {
         </span>
       </div>
       <div>
-        <button className="text-[#07FF2F] border-[#07FF2F] border px-4 py-2 rounded-full hover:bg-[#07FF2F]/10">
+        <button className="text-[#07FF2F] border border-[#07FF2F] hover:bg-[#07FF2F]/10 px-4 py-2 rounded-full text-sm">
           게임 검색
         </button>
       </div>
@@ -25,66 +21,19 @@ const Navbar = () => {
 
 const RandomChoiceGame = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isRunning, setIsRunning] = useState(false); // 초기값을 false로 변경
+  const [isRunning, setIsRunning] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
   const [streak, setStreak] = useState(0);
   const [history, setHistory] = useState([]);
   const [selectedResult, setSelectedResult] = useState(null);
-  const [images, setImages] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [isResultDialogOpen, setIsResultDialogOpen] = useState(false);
 
-  // Airtable에서 이미지 데이터 가져오기
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch(
-          `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`,
-          {
-            headers: {
-              Authorization: `Bearer ${AIRTABLE_API_KEY}`,
-            },
-          }
-        );
+  const images = airtableData.map((game) => ({
+    src: game.fields.image[0].url,
+    alt: game.fields["게임 명"],
+    description: game.fields["한줄 설명"] || "설명이 없습니다.",
+  }));
 
-        if (!response.ok) {
-          throw new Error(
-            "거북이는 열심히 돌림판 제작 중! 조금만 기다려주세요!"
-          );
-        }
-
-        const data = await response.json();
-
-        // Airtable 레코드 구조에 맞게 데이터 매핑
-        const formattedImages = data.records
-          .filter((record) => record.fields.ImageURL) // 이미지 URL이 있는 레코드만 필터링
-          .map((record) => ({
-            id: record.id,
-            src: record.fields.ImageURL,
-            alt: record.fields.Title || "게임 이미지",
-            title: record.fields.Title || "제목 없음",
-            description: record.fields.Description || "설명 없음",
-          }));
-
-        if (formattedImages.length === 0) {
-          throw new Error("등록된 이미지가 없습니다");
-        }
-
-        setImages(formattedImages);
-        setError(null);
-      } catch (err) {
-        setError(err.message);
-        console.error("Airtable 데이터 fetch 오류:", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchImages();
-  }, []);
-
-  // 로컬 스토리지에서 히스토리 불러오기
   useEffect(() => {
     const savedHistory = localStorage.getItem("gameHistory");
     if (savedHistory) {
@@ -92,87 +41,68 @@ const RandomChoiceGame = () => {
     }
   }, []);
 
-  // 사운드 재생 함수
   const playSound = useCallback(
     (soundType) => {
       if (isMuted) return;
-      // 여기에 사운드 재생 로직 추가
+      // Logic for playing sound
     },
     [isMuted]
   );
 
-  // 이미지 회전 타이머
   useEffect(() => {
     let timer;
-    if (isRunning && images.length > 0) {
+    if (isRunning) {
       playSound("spinning");
       timer = setInterval(() => {
         setCurrentIndex((prev) => (prev + 1) % images.length);
       }, 100);
     }
     return () => clearInterval(timer);
-  }, [isRunning, images.length, playSound]);
+  }, [isRunning]);
 
-  // 히스토리 저장 함수
   const saveToHistory = (selectedIndex) => {
-    const selectedImage = images[selectedIndex];
     const newHistory = [
       {
         id: Date.now(),
-        selection: selectedIndex + 1,
+        selection: images[selectedIndex].alt,
         timestamp: new Date().toLocaleString(),
-        image: selectedImage.src,
-        title: selectedImage.title,
-        description: selectedImage.description,
+        image: images[selectedIndex].src,
+        description: images[selectedIndex].description,
       },
       ...history,
-    ].slice(0, 10); // 최근 10개만 유지
+    ].slice(0, 10);
 
     setHistory(newHistory);
     localStorage.setItem("gameHistory", JSON.stringify(newHistory));
   };
 
-  // 게임 멈추기 핸들러
   const handleStop = () => {
     setIsRunning(false);
     playSound("stop");
     setSelectedResult(currentIndex);
     setStreak((prev) => prev + 1);
     saveToHistory(currentIndex);
+    setIsResultDialogOpen(true);
   };
 
-  // 게임 재시작 핸들러
   const handleRestart = () => {
     setIsRunning(true);
     setSelectedResult(null);
+    setIsResultDialogOpen(false);
   };
 
-  // 히스토리 초기화
   const clearHistory = () => {
     setHistory([]);
     localStorage.removeItem("gameHistory");
   };
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-xl font-bold">이미지를 불러오는 중...</div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-xl font-bold text-red-500">에러: {error}</div>
-      </div>
-    );
-  }
-
   return (
     <div
       className="min-h-screen bg-white"
-      style={{ fontFamily: "'Noto Sans KR', sans-serif" }}
+      style={{
+        fontFamily: "'Noto Sans KR', sans-serif",
+        touchAction: "manipulation",
+      }}
     >
       <Navbar />
       <div className="max-w-6xl mx-auto px-4 py-6 md:px-6 lg:px-8">
@@ -185,100 +115,136 @@ const RandomChoiceGame = () => {
           </h2>
           <div className="mt-2 text-black/80 flex items-center justify-center gap-2 font-bold">
             <Trophy size={18} color="#FF0000" />
-            <span>연속 {streak}번째 결정 중!</span>
+            <span>**연속 {streak}번째 결정 중!**</span>
           </div>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
-          <div className="bg-white shadow-lg p-6 rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-bold">현재 선택</h3>
-              <button
-                onClick={() => setIsMuted(!isMuted)}
-                className="p-2 rounded-full hover:bg-gray-200"
-              >
-                {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
-              </button>
-            </div>
-
-            <div className="relative w-full aspect-square bg-gray-100 rounded-lg mb-4 overflow-hidden">
-              {images.map((image, index) => (
-                <div
-                  key={image.id}
-                  className={`absolute inset-0 transition-opacity duration-100 ${
-                    currentIndex === index ? "opacity-100" : "opacity-0"
-                  }`}
+          {/* Game Card */}
+          <div className="bg-white shadow-lg rounded-lg">
+            <div className="p-4 md:p-6">
+              <div className="flex justify-end items-center mb-4">
+                <button
+                  onClick={() => setIsMuted(!isMuted)}
+                  className="p-2 rounded-full bg-gray-200 hover:bg-gray-300"
                 >
-                  <img
-                    src={image.src}
-                    alt={image.alt}
-                    className="w-full h-full object-contain"
-                  />
-                  {!isRunning && currentIndex === index && (
-                    <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-4">
-                      <h4 className="font-bold">{image.title}</h4>
-                      <p className="text-sm">{image.description}</p>
-                    </div>
+                  {isMuted ? (
+                    <VolumeX size={20} color="black" />
+                  ) : (
+                    <Volume2 size={20} color="black" />
                   )}
-                </div>
-              ))}
-            </div>
-
-            <div className="flex justify-center gap-4">
-              <button
-                onClick={isRunning ? handleStop : handleRestart}
-                className="w-full bg-[#07FF2F] hover:bg-[#05CC25] text-black px-6 py-4 text-lg font-black rounded-full"
-                disabled={images.length === 0}
-              >
-                {isRunning ? "멈추기 🔥" : "돌리기 🔥"}
-              </button>
-            </div>
-          </div>
-
-          <div className="bg-white shadow-lg p-6 rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg md:text-xl font-black text-black">
-                최근 선택 기록
-              </h3>
-              <button
-                onClick={clearHistory}
-                className="text-xs text-black/70 hover:bg-gray-100 rounded-full px-2 py-1"
-              >
-                기록 삭제
-              </button>
-            </div>
-            {history.length === 0 ? (
-              <div className="text-center text-black/70 py-4 text-sm">
-                아직 선택 기록이 없습니다
+                </button>
               </div>
-            ) : (
-              <div className="grid gap-3">
-                {history.map((item) => (
+
+              <div className="relative w-full aspect-square bg-black rounded-lg mb-4 overflow-hidden">
+                {images.map((image, index) => (
                   <div
-                    key={item.id}
-                    className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
+                    key={index}
+                    className={`absolute inset-0 transition-opacity duration-100 ${
+                      currentIndex === index ? "opacity-100" : "opacity-0"
+                    }`}
                   >
                     <img
-                      src={item.image}
-                      alt={`선택 ${item.selection}`}
-                      className="w-16 h-16 object-cover rounded"
+                      src={image.src}
+                      alt={image.alt}
+                      className="w-full h-full object-contain"
                     />
-                    <div>
-                      <div className="font-bold text-black">{item.title}</div>
-                      <div className="text-xs text-black/70">
-                        {item.timestamp}
-                      </div>
-                      <div className="text-sm text-black/80">
-                        {item.description}
-                      </div>
-                    </div>
                   </div>
                 ))}
               </div>
-            )}
+
+              <div className="flex justify-center gap-4">
+                <button
+                  onClick={isRunning ? handleStop : handleRestart}
+                  className="w-full bg-[#07FF2F] hover:bg-[#05CC25] text-black px-6 py-4 text-lg font-black rounded-full"
+                >
+                  {isRunning ? "Stop 🔥" : "다시하기 🔥"}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* History Card */}
+          <div className="bg-white shadow-lg rounded-lg">
+            <div className="p-4 md:p-6">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg md:text-xl font-black text-black">
+                  최근 선택 기록
+                </h3>
+                <button
+                  onClick={clearHistory}
+                  className="text-xs text-black/70 hover:bg-gray-100 rounded-full px-2 py-1"
+                >
+                  기록 삭제
+                </button>
+              </div>
+              {history.length === 0 ? (
+                <div className="text-center text-black/70 py-4 text-sm">
+                  아직 선택 기록이 없습니다
+                </div>
+              ) : (
+                <div className="grid gap-3">
+                  {history.map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
+                    >
+                      <img
+                        src={item.image}
+                        alt={item.selection}
+                        className="w-16 h-16 md:w-20 md:h-20 object-cover rounded"
+                      />
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="font-black text-black text-sm md:text-base">
+                            {item.selection}
+                          </span>
+                        </div>
+                        <div className="text-xs text-black/70">
+                          {item.description}
+                        </div>
+                        <div className="text-xs text-black/50">
+                          {item.timestamp}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Dialog */}
+      {isResultDialogOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+          <div className="bg-white p-6 rounded-lg w-11/12 max-w-sm">
+            <button
+              onClick={() => setIsResultDialogOpen(false)}
+              className="absolute top-3 right-3 p-2 hover:bg-gray-100 rounded-full"
+            >
+              <X size={20} className="text-black" />
+            </button>
+            <div className="text-center">
+              <h2 className="text-xl font-bold mb-3">🎉 당신의 선택!</h2>
+              {selectedResult !== null && (
+                <img
+                  src={images[selectedResult].src}
+                  alt={images[selectedResult].alt}
+                  className="w-32 h-32 mx-auto mb-3"
+                />
+              )}
+              <button
+                onClick={handleRestart}
+                className="bg-[#07FF2F] text-black px-4 py-2 rounded-full"
+              >
+                다시하기
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
