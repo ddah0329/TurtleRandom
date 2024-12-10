@@ -6,12 +6,23 @@ const Navbar = () => {
   return (
     <nav className="bg-white shadow-sm px-4 py-3 flex justify-between items-center">
       <div className="flex items-center">
-        <span className="text-xl md:text-2xl font-black text-[#07FF2F]">
+        <span
+          className="text-xl md:text-2xl font-black text-[#07FF2F] cursor-pointer"
+          onClick={() =>
+            (window.location.href = "https://turtlegame.my.canva.site/")
+          }
+        >
           🐢 거북이 보드게임
         </span>
       </div>
+
       <div>
-        <button className="text-[#07FF2F] border border-[#07FF2F] hover:bg-[#07FF2F]/10 px-4 py-2 rounded-full text-sm">
+        <button
+          className="text-[#07FF2F] border border-[#07FF2F] hover:bg-[#07FF2F]/10 px-4 py-2 rounded-full text-sm"
+          onClick={() =>
+            (window.location.href = "https://turtlegame.softr.app/")
+          }
+        >
           게임 검색
         </button>
       </div>
