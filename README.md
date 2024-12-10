@@ -1,74 +1,121 @@
-<<<<<<< HEAD
-# Random_Game_Turtle
-=======
-# Getting Started with Create React App
+## 🎲 Random Choice Game - 랜덤 게임 선택기
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Random Choice Game**은 사용자가 다양한 보드게임 선택지 중 랜덤하게 하나를 고를 수 있도록 돕는 재미있는 도구입니다. "결정 장애"를 극복하고 싶은 분들에게 최적화된 랜덤 게임 선택 애플리케이션입니다.
 
-## Available Scripts
+이 프로젝트는 **React**를 기반으로 하며, **Airtable 데이터**를 활용하여 보드게임 정보를 동적으로 표시합니다.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+### 📸 기능 소개
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **랜덤 이미지 슬라이드**  
+  Airtable에서 제공되는 보드게임 데이터(이미지, 게임명, 한줄 설명)를 무작위로 순환하며 표시합니다.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **선택 결과 확인**  
+  "Stop 🔥" 버튼을 클릭하여 선택을 멈추면 결과가 팝업으로 나타납니다.
 
-### `npm test`
+- **선택 기록 저장**  
+  최근 10개의 선택 기록을 로컬 스토리지에 저장하여 언제든 확인할 수 있습니다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **선택 기록 삭제**  
+  저장된 기록을 초기화할 수 있는 기능을 제공합니다.
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 🛠️ 기술 스택
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **React**: UI 구성 및 상태 관리
+- **Tailwind CSS**: 반응형 UI 디자인
+- **Lucide React**: SVG 아이콘 라이브러리
+- **Airtable API**: 보드게임 데이터 관리
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+### 📂 프로젝트 구조
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```plaintext
+src/
+├── components/
+│   ├── Navbar.jsx          // 상단 네비게이션 컴포넌트
+│   ├── RandomChoiceGame.jsx // 랜덤 선택 기능 구현
+├── assets/
+│   ├── airtable_data.json   // Airtable에서 가져온 보드게임 데이터
+├── App.jsx                 // 메인 App 컴포넌트
+├── index.js                // ReactDOM 렌더링
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### ⚙️ 설치 및 실행 방법
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. **클론 저장소**
 
-## Learn More
+   ```bash
+   git clone https://github.com/ddah0329/TurtleRandom.git
+   cd random-choice-game
+   ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+2. **의존성 설치**
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   ```bash
+   npm install
+   ```
 
-### Code Splitting
+3. **개발 서버 실행**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+   ```bash
+   npm start
+   ```
 
-### Analyzing the Bundle Size
+4. **웹 브라우저에서 확인**  
+   [http://localhost:3000](http://localhost:3000)로 이동하여 애플리케이션을 확인하세요.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+### 📋 JSON 데이터 포맷
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+아래는 Airtable에서 제공되는 데이터 형식의 예제입니다:
 
-### Advanced Configuration
+```json
+[
+  {
+    "id": "recBrYBTrUMQn7o1D",
+    "fields": {
+      "게임 명": "다함께 메이킹 - 오피스편",
+      "image": [
+        {
+          "url": "https://example.com/image1.jpg"
+        }
+      ],
+      "한줄 설명": "재미있는 오피스 게임!"
+    }
+  },
+  ...
+]
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+---
 
-### Deployment
+### 🎉 주요 화면
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+#### 랜덤 선택 화면
 
-### `npm run build` fails to minify
+![랜덤 선택 화면](https://via.placeholder.com/600x400)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
->>>>>>> a0be2bd (Initialize project using Create React App)
+#### 선택 결과 팝업
+
+![결과 팝업](https://via.placeholder.com/600x400)
+
+#### 선택 기록
+
+![선택 기록](https://via.placeholder.com/600x400)
+
+---
+
+### 📜 라이선스
+
+이 프로젝트는 **거북이 보드게임 카페 건대점**에 라이선스가 있으므로 무단 이용은 불가합니다.
+
+---
+
+**✨ Enjoy your game selection!**
