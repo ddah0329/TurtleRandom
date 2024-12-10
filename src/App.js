@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { Trophy, Volume2, VolumeX, X } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Trophy, X } from "lucide-react";
 import airtableData from "./airtable_data.json";
 
 const Navbar = () => {
@@ -22,7 +22,6 @@ const Navbar = () => {
 const RandomChoiceGame = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isRunning, setIsRunning] = useState(true);
-  const [isMuted, setIsMuted] = useState(false);
   const [streak, setStreak] = useState(0);
   const [history, setHistory] = useState([]);
   const [selectedResult, setSelectedResult] = useState(null);
@@ -41,18 +40,9 @@ const RandomChoiceGame = () => {
     }
   }, []);
 
-  const playSound = useCallback(
-    (soundType) => {
-      if (isMuted) return;
-      // Logic for playing sound
-    },
-    [isMuted]
-  );
-
   useEffect(() => {
     let timer;
     if (isRunning) {
-      playSound("spinning");
       timer = setInterval(() => {
         setCurrentIndex((prev) => (prev + 1) % images.length);
       }, 100);
@@ -78,7 +68,6 @@ const RandomChoiceGame = () => {
 
   const handleStop = () => {
     setIsRunning(false);
-    playSound("stop");
     setSelectedResult(currentIndex);
     setStreak((prev) => prev + 1);
     saveToHistory(currentIndex);
@@ -123,7 +112,7 @@ const RandomChoiceGame = () => {
           {/* Game Card */}
           <div className="bg-white shadow-lg rounded-lg">
             <div className="p-4 md:p-6">
-              <div className="relative w-full aspect-square bg-black rounded-lg mb-4 overflow-hidden">
+              <div className="relative w-full aspect-square bg-white rounded-lg mb-4 overflow-hidden">
                 {images.map((image, index) => (
                   <div
                     key={index}
@@ -145,7 +134,7 @@ const RandomChoiceGame = () => {
                   onClick={isRunning ? handleStop : handleRestart}
                   className="w-full bg-[#07FF2F] hover:bg-[#05CC25] text-black px-6 py-4 text-lg font-black rounded-full"
                 >
-                  {isRunning ? "Stop 🔥" : "다시하기 🔥"}
+                  {isRunning ? "멈추기 🔥" : "다시하기 🔥"}
                 </button>
               </div>
             </div>
@@ -224,9 +213,9 @@ const RandomChoiceGame = () => {
               )}
               <button
                 onClick={handleRestart}
-                className="bg-[#07FF2F] text-black px-4 py-2 rounded-full"
+                className="w-full bg-[#07FF2F] hover:bg-[#05CC25] text-black px-6 py-4 text-lg font-black rounded-full"
               >
-                다시하기
+                다시하기 🔥
               </button>
             </div>
           </div>
