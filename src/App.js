@@ -123,19 +123,6 @@ const RandomChoiceGame = () => {
           {/* Game Card */}
           <div className="bg-white shadow-lg rounded-lg">
             <div className="p-4 md:p-6">
-              <div className="flex justify-end items-center mb-4">
-                <button
-                  onClick={() => setIsMuted(!isMuted)}
-                  className="p-2 rounded-full bg-gray-200 hover:bg-gray-300"
-                >
-                  {isMuted ? (
-                    <VolumeX size={20} color="black" />
-                  ) : (
-                    <Volume2 size={20} color="black" />
-                  )}
-                </button>
-              </div>
-
               <div className="relative w-full aspect-square bg-black rounded-lg mb-4 overflow-hidden">
                 {images.map((image, index) => (
                   <div

@@ -35,11 +35,7 @@
 
 ```plaintext
 src/
-├── components/
-│   ├── Navbar.jsx          // 상단 네비게이션 컴포넌트
-│   ├── RandomChoiceGame.jsx // 랜덤 선택 기능 구현
-├── assets/
-│   ├── airtable_data.json   // Airtable에서 가져온 보드게임 데이터
+├── airtable_data.json   // Airtable에서 가져온 보드게임 데이터
 ├── App.jsx                 // 메인 App 컴포넌트
 ├── index.js                // ReactDOM 렌더링
 ```
