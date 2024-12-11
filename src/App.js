@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Trophy, X } from "lucide-react";
-import airtableData from "./airtable_data.json";
+import axios from "axios";
 
 const Navbar = () => {
   return (
@@ -37,12 +37,38 @@ const RandomChoiceGame = () => {
   const [history, setHistory] = useState([]);
   const [selectedResult, setSelectedResult] = useState(null);
   const [isResultDialogOpen, setIsResultDialogOpen] = useState(false);
+  const [images, setImages] = useState([]);
 
-  const images = airtableData.map((game) => ({
-    src: game.fields.image[0].url,
-    alt: game.fields["게임 명"],
-    description: game.fields["한줄 설명"] || "설명이 없습니다.",
-  }));
+  useEffect(() => {
+    const fetchGames = async () => {
+      const apiKey = process.env.REACT_APP_AIRTABLE_API_KEY;
+      const baseId = process.env.REACT_APP_AIRTABLE_BASE_ID;
+      const tableName = process.env.REACT_APP_AIRTABLE_TABLE_NAME;
+
+      try {
+        const response = await axios.get(
+          `https://api.airtable.com/v0/${baseId}/${tableName}`,
+          {
+            headers: {
+              Authorization: `Bearer ${apiKey}`,
+            },
+          }
+        );
+
+        const gameData = response.data.records.map((record) => ({
+          src: record.fields.image[0].url,
+          alt: record.fields["게임 명"],
+          description: record.fields["한줄 설명"] || "설명이 없습니다.",
+        }));
+
+        setImages(gameData);
+      } catch (error) {
+        console.error("Error fetching data from Airtable", error);
+      }
+    };
+
+    fetchGames();
+  }, []);
 
   useEffect(() => {
     const savedHistory = localStorage.getItem("gameHistory");
@@ -53,36 +79,42 @@ const RandomChoiceGame = () => {
 
   useEffect(() => {
     let timer;
-    if (isRunning) {
+    if (isRunning && images.length > 0) {
       timer = setInterval(() => {
         setCurrentIndex((prev) => (prev + 1) % images.length);
       }, 100);
     }
     return () => clearInterval(timer);
-  }, [isRunning]);
+  }, [isRunning, images]);
 
   const saveToHistory = (selectedIndex) => {
-    const newHistory = [
-      {
-        id: Date.now(),
-        selection: images[selectedIndex].alt,
-        timestamp: new Date().toLocaleString(),
-        image: images[selectedIndex].src,
-        description: images[selectedIndex].description,
-      },
-      ...history,
-    ].slice(0, 10);
+    // images가 로드된 후에만 저장하도록 확인
+    if (images[selectedIndex]) {
+      const newHistory = [
+        {
+          id: Date.now(),
+          selection: images[selectedIndex].alt,
+          timestamp: new Date().toLocaleString(),
+          image: images[selectedIndex].src,
+          description: images[selectedIndex].description,
+        },
+        ...history,
+      ].slice(0, 10);
 
-    setHistory(newHistory);
-    localStorage.setItem("gameHistory", JSON.stringify(newHistory));
+      setHistory(newHistory);
+      localStorage.setItem("gameHistory", JSON.stringify(newHistory));
+    }
   };
 
   const handleStop = () => {
-    setIsRunning(false);
-    setSelectedResult(currentIndex);
-    setStreak((prev) => prev + 1);
-    saveToHistory(currentIndex);
-    setIsResultDialogOpen(true);
+    // images가 로드된 후에만 실행
+    if (images.length > 0) {
+      setIsRunning(false);
+      setSelectedResult(currentIndex);
+      setStreak((prev) => prev + 1);
+      saveToHistory(currentIndex);
+      setIsResultDialogOpen(true);
+    }
   };
 
   const handleRestart = () => {
@@ -224,9 +256,9 @@ const RandomChoiceGame = () => {
               )}
               <button
                 onClick={handleRestart}
-                className="w-full bg-[#07FF2F] hover:bg-[#05CC25] text-black px-6 py-4 text-lg font-black rounded-full"
+                className="w-full bg-[#07FF2F] hover:bg-[#05CC25] text-black py-3 mt-4 text-lg font-black rounded-full"
               >
-                다시하기 🔥
+                다시 시작
               </button>
             </div>
           </div>
