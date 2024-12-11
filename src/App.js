@@ -149,7 +149,7 @@ const RandomChoiceGame = () => {
           {/* Game Card */}
           <div className="bg-white shadow-lg rounded-lg">
             <div className="p-4 md:p-6">
-              <div className="relative w-full aspect-square bg-white rounded-lg mb-4 overflow-hidden">
+              <div className="relative w-full aspect-square bg-white rounded-full mb-4 overflow-hidden">
                 {images.map((image, index) => (
                   <div
                     key={index}
@@ -160,7 +160,7 @@ const RandomChoiceGame = () => {
                     <img
                       src={image.src}
                       alt={image.alt}
-                      className="w-full h-full object-contain"
+                      className="w-full h-full object-cover rounded-full" // rounded-full을 추가하여 이미지가 원형으로 보이도록 수정
                     />
                   </div>
                 ))}
