@@ -220,11 +220,10 @@ const RandomChoiceGame = () => {
                                 if (item.videoUrl) {
                                   window.open(item.videoUrl, "_blank");
                                 } else {
-                                  // videoUrl이 없을 때는 아무 동작도 하지 않음
                                   console.log("영상 링크가 없습니다.");
                                 }
                               }}
-                              className="text-[#05CC25] border border-[#07FF2F] hover:bg-[#07FF2F]/30 px-2 rounded-md"
+                              className="text-[#05CC25] border border-[#07FF2F] hover:bg-[#07FF2F]/30 px-2 py-1 text-xs rounded-md"
                             >
                               설명 영상
                             </button>
@@ -250,28 +249,47 @@ const RandomChoiceGame = () => {
       {isResultDialogOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
           <div className="bg-white p-6 rounded-lg w-11/12 max-w-sm">
-            <button
-              onClick={() => setIsResultDialogOpen(false)}
-              className="absolute top-3 right-3 p-2 hover:bg-gray-100 rounded-full"
-            >
-              <X size={20} className="text-black" />
-            </button>
-            <div className="text-center">
-              <h2 className="text-xl mb-3">🎉 당신의 선택!</h2>
-              {selectedResult !== null && (
+            <div className="flex justify-end">
+              <button
+                onClick={() => setIsResultDialogOpen(false)}
+                className="p-2 hover:bg-gray-100 rounded-full"
+              >
+                <X size={20} className="text-black" />
+              </button>
+            </div>
+            <div className="flex justify-center mb-3">
+              <h2 className="text-xl">🎉 당신의 선택!</h2>
+            </div>
+            {selectedResult !== null && (
+              <>
+                <div className="text-center mb-3">
+                  <h3 className="text-lg text-black">
+                    {images[selectedResult].alt}
+                  </h3>
+                  <p className="text-sm text-black/70">
+                    {images[selectedResult].description}
+                  </p>
+                </div>
                 <img
                   src={images[selectedResult].src}
                   alt={images[selectedResult].alt}
-                  className="w-32 h-32 mx-auto mb-3"
+                  className="w-60 h-60 mx-auto mb-3"
                 />
-              )}
-              <button
-                onClick={() => setIsResultDialogOpen(false)}
-                className="w-full bg-[#07FF2F] hover:bg-[#05CC25] text-black py-3 mt-4 text-lg rounded-full"
-              >
-                다시 시작
-              </button>
-            </div>
+              </>
+            )}
+            <button
+              onClick={() => {
+                const selectedGame = images[selectedResult];
+                if (selectedGame && selectedGame.videoUrl) {
+                  window.open(selectedGame.videoUrl, "_blank");
+                } else {
+                  console.log("게임 설명 영상이 없습니다.");
+                }
+              }}
+              className="w-full bg-[#07FF2F] hover:bg-[#05CC25] text-black py-3 mt-4 text-lg rounded-full"
+            >
+              게임 설명 영상
+            </button>
           </div>
         </div>
       )}
