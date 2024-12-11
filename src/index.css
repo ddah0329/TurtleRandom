@@ -2,16 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+/* src/index.css */
+@font-face {
+  font-family: "GangwonEduPower";
+  src: url("/public/fonts/GangwonEduPower.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* 모든 요소에 대해 GangwonEduPower 폰트 적용 */
+*,
+*::before,
+*::after {
+  font-family: "GangwonEduPower", sans-serif;
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: "GangwonEduPower", sans-serif; /* 모든 텍스트에 GangwonEduPower 적용 */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }

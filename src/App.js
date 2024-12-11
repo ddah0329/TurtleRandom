@@ -7,7 +7,7 @@ const Navbar = () => {
     <nav className="bg-white shadow-sm px-4 py-3 flex justify-between items-center">
       <div className="flex items-center">
         <span
-          className="text-xl md:text-2xl font-black text-[#07FF2F] cursor-pointer"
+          className="text-xl md:text-2xl text-[#07FF2F] cursor-pointer"
           onClick={() =>
             (window.location.href = "https://turtlegame.my.canva.site/")
           }
@@ -88,7 +88,6 @@ const RandomChoiceGame = () => {
   }, [isRunning, images]);
 
   const saveToHistory = (selectedIndex) => {
-    // images가 로드된 후에만 저장하도록 확인
     if (images[selectedIndex]) {
       const newHistory = [
         {
@@ -107,7 +106,6 @@ const RandomChoiceGame = () => {
   };
 
   const handleStop = () => {
-    // images가 로드된 후에만 실행
     if (images.length > 0) {
       setIsRunning(false);
       setSelectedResult(currentIndex);
@@ -129,23 +127,17 @@ const RandomChoiceGame = () => {
   };
 
   return (
-    <div
-      className="min-h-screen bg-white"
-      style={{
-        fontFamily: "'Noto Sans KR', sans-serif",
-        touchAction: "manipulation",
-      }}
-    >
+    <div className="min-h-screen bg-white">
       <Navbar />
       <div className="max-w-6xl mx-auto px-4 py-6 md:px-6 lg:px-8">
         <div className="text-center mb-6">
-          <h1 className="text-3xl md:text-4xl font-black text-black mb-2">
+          <h1 className="text-3xl md:text-4xl text-black mb-2">
             🎯 돌려돌려 돌림판~!
           </h1>
-          <h2 className="text-lg md:text-xl text-black/90 font-bold">
-            결정장애 당신을 위한! 랜덤~게임~!
+          <h2 className="text-lg md:text-xl text-black/90">
+            결정을 못하는 당신을 위한! 랜덤~게임~!
           </h2>
-          <div className="mt-2 text-black/80 flex items-center justify-center gap-2 font-bold">
+          <div className="mt-2 text-black/80 flex items-center justify-center gap-2">
             <Trophy size={18} color="#FF0000" />
             <span>**연속 {streak}번째 결정 중!**</span>
           </div>
@@ -175,7 +167,7 @@ const RandomChoiceGame = () => {
               <div className="flex justify-center gap-4">
                 <button
                   onClick={isRunning ? handleStop : handleRestart}
-                  className="w-full bg-[#07FF2F] hover:bg-[#05CC25] text-black px-6 py-4 text-lg font-black rounded-full"
+                  className="w-full bg-[#07FF2F] hover:bg-[#05CC25] text-black px-6 py-4 text-lg rounded-full"
                 >
                   {isRunning ? "멈추기 🔥" : "다시하기 🔥"}
                 </button>
@@ -187,7 +179,7 @@ const RandomChoiceGame = () => {
           <div className="bg-white shadow-lg rounded-lg">
             <div className="p-4 md:p-6">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg md:text-xl font-black text-black">
+                <h3 className="text-lg md:text-xl text-black">
                   최근 선택 기록
                 </h3>
                 <button
@@ -215,7 +207,7 @@ const RandomChoiceGame = () => {
                       />
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="font-black text-black text-sm md:text-base">
+                          <span className="text-black text-sm md:text-base">
                             {item.selection}
                           </span>
                         </div>
@@ -246,7 +238,7 @@ const RandomChoiceGame = () => {
               <X size={20} className="text-black" />
             </button>
             <div className="text-center">
-              <h2 className="text-xl font-bold mb-3">🎉 당신의 선택!</h2>
+              <h2 className="text-xl mb-3">🎉 당신의 선택!</h2>
               {selectedResult !== null && (
                 <img
                   src={images[selectedResult].src}
@@ -256,7 +248,7 @@ const RandomChoiceGame = () => {
               )}
               <button
                 onClick={handleRestart}
-                className="w-full bg-[#07FF2F] hover:bg-[#05CC25] text-black py-3 mt-4 text-lg font-black rounded-full"
+                className="w-full bg-[#07FF2F] hover:bg-[#05CC25] text-black py-3 mt-4 text-lg rounded-full"
               >
                 다시 시작
               </button>
