@@ -247,7 +247,7 @@ const RandomChoiceGame = () => {
                 />
               )}
               <button
-                onClick={handleRestart}
+                onClick={() => setIsResultDialogOpen(false)}
                 className="w-full bg-[#07FF2F] hover:bg-[#05CC25] text-black py-3 mt-4 text-lg rounded-full"
               >
                 다시 시작
