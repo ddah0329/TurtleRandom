@@ -21,7 +21,7 @@ const Navbar = () => {
           }
         >
           <img
-            src="assets/logo_heyTurtle.png"
+            src="assets/navbar_heyTurtle.png"
             alt="거북이 보드게임 카페 로고"
             className="cursor-pointer w-auto h-12"
           />
@@ -35,7 +35,7 @@ const Navbar = () => {
           }
         >
           <img
-            src="assets/Search.png"
+            src="assets/navbar_search.png"
             alt="검색"
             className="cursor-pointer w-auto h-7"
           />

@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="bg-black text-white py-6 flex items-center px-4">
+    <footer className="bg-black text-white py-6 flex items-center px-4 bottom-0 left-0 w-full">
       {/* Left Image */}
       <div className="flex items-center">
         <img src="assets/footer_left.png" alt="Footer Left" className="h-10" />
