@@ -197,7 +197,7 @@ const RandomChoiceGame = () => {
               <div className="flex justify-center gap-4">
                 <button
                   onClick={isRunning ? handleStop : handleRestart}
-                  className="w-full bg-[#000] hover:bg-[#07FF2F] text-white px-6 py-4 text-lg rounded-full"
+                  className="w-full bg-[#000] hover:bg-[#07FF2F] text-white hover:text-black px-6 py-4 text-lg rounded-full"
                 >
                   {isRunning ? "🔥 멈추기 🔥" : "🔥 다시하기 🔥"}
                 </button>
@@ -230,12 +230,12 @@ const RandomChoiceGame = () => {
                     return (
                       <div
                         key={item.id}
-                        className="flex items-center gap-3 p-3 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+                        className="flex items-center gap-3 p-3 rounded-lg shadow-md transition-shadow duration-300"
                       >
                         <img
                           src={item.image}
                           alt={item.selection}
-                          className="w-16 h-16 md:w-20 md:h-20 object-cover rounded shadow-sm"
+                          className="w-40 h-40 md:w-40 md:h-40 object-cover rounded shadow-sm"
                         />
                         <div className="flex-1">
                           <div className="text-xs text-black">
@@ -245,7 +245,7 @@ const RandomChoiceGame = () => {
                             <span className="text-black text-sm md:text-base">
                               {item.selection}
                             </span>
-                            <div className="text-xs text-[#000] bg-[#eee] hover:bg-[#e0e0e0]/30 px-2 py-1 text-xs rounded-md shadow-sm transition-shadow duration-300">
+                            <div className="text-xs text-[#000] bg-[#eee] px-2 py-1 text-xs rounded-md shadow-sm transition-shadow duration-300">
                               {item.numberOfPeople}
                             </div>
                           </div>
@@ -255,9 +255,6 @@ const RandomChoiceGame = () => {
                           <div className="text-xs text-black/50">
                             {item.hashtag &&
                               item.hashtag.map((tag) => `#${tag}`).join(" ")}
-                          </div>
-                          <div className="text-xs text-black/50">
-                            {item.timestamp}
                           </div>
                           <button
                             onClick={() => {
@@ -307,11 +304,23 @@ const RandomChoiceGame = () => {
             {selectedResult !== null && (
               <>
                 <div className="text-center mb-3">
+                  <p className="text-sm text-black/70">
+                    {images[selectedResult].whatGame}
+                  </p>
                   <h3 className="text-lg text-black">
                     {images[selectedResult].alt}
                   </h3>
+                  <div className="text-xs text-[#000] bg-[#eee] px-2 py-1 text-xs rounded-md shadow-sm transition-shadow duration-300">
+                    {images[selectedResult].numberOfPeople}
+                  </div>
                   <p className="text-sm text-black/70">
                     {images[selectedResult].description}
+                  </p>
+                  <p className="text-sm text-black/70">
+                    {images[selectedResult].hashtag &&
+                      images[selectedResult].hashtag
+                        .map((tag) => `#${tag}`)
+                        .join(" ")}
                   </p>
                 </div>
                 <img
@@ -330,7 +339,7 @@ const RandomChoiceGame = () => {
                   console.log("게임 설명 영상이 없습니다.");
                 }
               }}
-              className="w-full bg-[#07FF2F] hover:bg-[#05CC25] text-black py-3 mt-4 text-lg rounded-full"
+              className="w-full bg-[#07FF2F] hover:bg-black text-black hover:text-white py-3 mt-4 text-lg rounded-full"
             >
               게임 설명 영상
             </button>
