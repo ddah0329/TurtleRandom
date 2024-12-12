@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { X } from "lucide-react";
+import { Trophy, X } from "lucide-react";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import axios from "axios";
@@ -7,7 +7,7 @@ import axios from "axios";
 const App = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isRunning, setIsRunning] = useState(true);
-  const [setStreak] = useState(0);
+  const [streak, setStreak] = useState(0);
   const [history, setHistory] = useState([]);
   const [selectedResult, setSelectedResult] = useState(null);
   const [isResultDialogOpen, setIsResultDialogOpen] = useState(false);
@@ -307,19 +307,27 @@ const App = () => {
                 />
               </>
             )}
-            <button
-              onClick={() => {
-                const selectedGame = images[selectedResult];
-                if (selectedGame && selectedGame.videoUrl) {
-                  window.open(selectedGame.videoUrl, "_blank");
-                } else {
-                  console.log("게임 설명 영상이 없습니다.");
-                }
-              }}
-              className="w-full bg-[#07FF2F] hover:bg-black text-black hover:text-white py-3 mt-4 text-lg rounded-full"
-            >
-              게임 설명 영상
-            </button>
+            <div className="flex gap-4 mt-4">
+              <button
+                onClick={() => setIsResultDialogOpen(false)}
+                className="flex-1 bg-black hover:bg-[#07FF2F] text-white hover:text-black py-3 text-lg rounded-full"
+              >
+                다시하기
+              </button>
+              <button
+                onClick={() => {
+                  const selectedGame = images[selectedResult];
+                  if (selectedGame && selectedGame.videoUrl) {
+                    window.open(selectedGame.videoUrl, "_blank");
+                  } else {
+                    console.log("게임 설명 영상이 없습니다.");
+                  }
+                }}
+                className="flex-1 bg-[#07FF2F] hover:bg-black text-black hover:text-white py-3 text-lg rounded-full"
+              >
+                게임 설명 영상
+              </button>
+            </div>
           </div>
         </div>
       )}
