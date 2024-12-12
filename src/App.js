@@ -9,7 +9,7 @@ const Navbar = () => {
         <span
           className="text-xl md:text-2xl text-black cursor-pointer"
           onClick={() =>
-            (window.location.href = "https://turtlegame.my.canva.site/")
+            (window.location.href = "https://open.kakao.com/o/ssdPaEEe")
           }
         >
           가맹문의
@@ -22,17 +22,25 @@ const Navbar = () => {
             (window.location.href = "https://turtlegame.my.canva.site/")
           }
         >
-          가맹문의
+          <img
+            src="assets/logo_heyTurtle.png"
+            alt="거북이 보드게임 카페 로고"
+            className="cursor-pointer w-auto h-12"
+          />
         </span>
       </div>
       <div className="flex items-center">
         <span
           className="text-xl md:text-2xl text-black cursor-pointer"
           onClick={() =>
-            (window.location.href = "https://turtlegame.my.canva.site/")
+            (window.location.href = "https://turtlegame.softr.app/")
           }
         >
-          가맹문의
+          <img
+            src="assets/Search.png"
+            alt="검색"
+            className="cursor-pointer w-auto h-7"
+          />
         </span>
       </div>
     </nav>
