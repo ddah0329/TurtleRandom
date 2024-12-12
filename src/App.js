@@ -149,21 +149,47 @@ const RandomChoiceGame = () => {
           {/* Game Card */}
           <div className="bg-white shadow-lg rounded-lg">
             <div className="p-4 md:p-6">
+              {/* Circular Guide Overlay */}
               <div className="relative w-full aspect-square bg-white rounded-full mb-4 overflow-hidden">
                 {images.map((image, index) => (
                   <div
                     key={index}
-                    className={`absolute inset-0 transition-opacity duration-100 ${
+                    className={`absolute inset-0 transition-opacity duration-100 z-10 ${
                       currentIndex === index ? "opacity-100" : "opacity-0"
                     }`}
                   >
                     <img
                       src={image.src}
                       alt={image.alt}
-                      className="w-full h-full object-cover rounded-full" // rounded-full을 추가하여 이미지가 원형으로 보이도록 수정
+                      className="w-full h-full object-cover rounded-full"
                     />
                   </div>
                 ))}
+                {/* Circular Guide Overlay */}
+                <img
+                  src="/assets/circular-guide.png"
+                  alt="Circular Guide"
+                  className="absolute inset-0 w-full h-full pointer-events-none z-20 circular-guide-spin"
+                  style={{
+                    transform: "scale(1.4)", // 40% 사이즈 키우기
+                  }}
+                />
+
+                {/* 애니메이션 스타일 추가 */}
+                <style jsx>{`
+                  .circular-guide-spin {
+                    animation: spin 15s linear infinite;
+                  }
+
+                  @keyframes spin {
+                    from {
+                      transform: rotate(0deg) scale(1.4);
+                    }
+                    to {
+                      transform: rotate(360deg) scale(1.4);
+                    }
+                  }
+                `}</style>
               </div>
 
               <div className="flex justify-center gap-4">
