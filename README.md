@@ -76,18 +76,18 @@ npm start
 ## 🚀 주요 기능 및 화면
 
 1. **랜덤 게임 선택**:
-   ![랜덤 게임 선택 화면](https://via.placeholder.com/600x400)
+   ![랜덤 게임 선택 화면](public/assets/readme_main.gif)
 
    - "🔥 멈추기 🔥" 버튼을 클릭하여 랜덤으로 게임을 추천받습니다.
    - 추천된 게임에 대한 설명을 확인하고, 관련 영상이 있다면 시청할 수 있습니다.
 
 2. **선택 결과 팝업**:
-   ![결과 팝업](https://via.placeholder.com/600x400)
+   ![결과 팝업](public/assets/readme_select.png)
 
    - 게임을 랜덤으로 선택하고, 선택된 게임에 대한 상세 정보를 제공합니다.
 
 3. **게임 선택 기록 확인**:
-   ![선택 기록](https://via.placeholder.com/600x400)
+   ![선택 기록](public/assets/readme_history.png)
 
    - "🎯 최근 선택 기록" 섹션에서 최근 선택한 게임들의 목록을 확인할 수 있습니다.
    - 선택한 게임은 10개까지 저장되며, 저장된 게임은 이미지와 설명도 함께 제공됩니다.
