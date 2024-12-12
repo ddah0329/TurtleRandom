@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Trophy, X } from "lucide-react";
+import Footer from "./components/Footer.js";
 import axios from "axios";
 
 const Navbar = () => {
@@ -298,7 +299,6 @@ const RandomChoiceGame = () => {
           </div>
         </div>
       </div>
-
       {/* Dialog */}
       {isResultDialogOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
@@ -367,6 +367,7 @@ const RandomChoiceGame = () => {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 };
