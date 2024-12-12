@@ -7,24 +7,33 @@ const Navbar = () => {
     <nav className="bg-white shadow-sm px-4 py-3 flex justify-between items-center">
       <div className="flex items-center">
         <span
-          className="text-xl md:text-2xl text-[#07FF2F] cursor-pointer"
+          className="text-xl md:text-2xl text-black cursor-pointer"
           onClick={() =>
             (window.location.href = "https://turtlegame.my.canva.site/")
           }
         >
-          🐢 거북이 보드게임
+          가맹문의
         </span>
       </div>
-
-      <div>
-        <button
-          className="text-[#07FF2F] border border-[#07FF2F] hover:bg-[#07FF2F]/10 px-4 py-2 rounded-full text-sm"
+      <div className="flex items-center">
+        <span
+          className="text-xl md:text-2xl text-black cursor-pointer"
           onClick={() =>
-            (window.location.href = "https://turtlegame.softr.app/")
+            (window.location.href = "https://turtlegame.my.canva.site/")
           }
         >
-          게임 검색
-        </button>
+          가맹문의
+        </span>
+      </div>
+      <div className="flex items-center">
+        <span
+          className="text-xl md:text-2xl text-black cursor-pointer"
+          onClick={() =>
+            (window.location.href = "https://turtlegame.my.canva.site/")
+          }
+        >
+          가맹문의
+        </span>
       </div>
     </nav>
   );
@@ -138,7 +147,7 @@ const RandomChoiceGame = () => {
     <div className="min-h-screen bg-white">
       <Navbar />
       <div className="max-w-6xl mx-auto px-4 py-6 md:px-6 lg:px-8">
-        <div className="text-center mb-6">
+        <div className="text-center mt-10 mb-10">
           <h1 className="text-3xl md:text-4xl text-black mb-2">
             🎯 돌려돌려 돌림판~!
           </h1>
@@ -167,14 +176,12 @@ const RandomChoiceGame = () => {
                     />
                   </div>
                 ))}
+
                 {/* Circular Guide Overlay */}
                 <img
                   src="/assets/circular-guide.png"
                   alt="Circular Guide"
-                  className="absolute inset-0 w-full h-full pointer-events-none z-20 circular-guide-spin"
-                  style={{
-                    transform: "scale(1.4)", // 40% 사이즈 키우기
-                  }}
+                  className="absolute inset-0 w-full h-full pointer-events-none z-50 circular-guide-spin"
                 />
 
                 {/* 애니메이션 스타일 추가 */}
@@ -185,10 +192,10 @@ const RandomChoiceGame = () => {
 
                   @keyframes spin {
                     from {
-                      transform: rotate(0deg) scale(1.4);
+                      transform: rotate(0deg) scale(1.05);
                     }
                     to {
-                      transform: rotate(360deg) scale(1.4);
+                      transform: rotate(360deg) scale(1.05);
                     }
                   }
                 `}</style>
@@ -197,7 +204,7 @@ const RandomChoiceGame = () => {
               <div className="flex justify-center gap-4">
                 <button
                   onClick={isRunning ? handleStop : handleRestart}
-                  className="w-full bg-[#000] hover:bg-[#07FF2F] text-white hover:text-black px-6 py-4 text-lg rounded-full"
+                  className="w-full bg-[#000] hover:bg-[#07FF2F] text-white hover:text-black px-6 py-4 text-lg rounded-full mt-10 mb-3"
                 >
                   {isRunning ? "🔥 멈추기 🔥" : "🔥 다시하기 🔥"}
                 </button>
@@ -231,28 +238,30 @@ const RandomChoiceGame = () => {
                       <div
                         key={item.id}
                         className="flex items-center gap-3 p-3 rounded-lg shadow-md transition-shadow duration-300"
+                        style={{ fontFamily: "Noto Sans KR, sans-serif" }}
                       >
                         <img
                           src={item.image}
                           alt={item.selection}
-                          className="w-40 h-40 md:w-40 md:h-40 object-cover rounded shadow-sm"
+                          className="w-20 h-22 md:w-23 md:h-23 object-cover rounded"
                         />
                         <div className="flex-1">
-                          <div className="text-xs text-black">
-                            {item.whatGame}
+                          <div className="text-2xs text-black font-black">
+                            {item.whatGame && item.whatGame[0]}
                           </div>
+
                           <div className="flex items-center gap-2 mb-1">
-                            <span className="text-black text-sm md:text-base">
+                            <span className="text-black text-sm md:text-base font-black">
                               {item.selection}
                             </span>
-                            <div className="text-xs text-[#000] bg-[#eee] px-2 py-1 text-xs rounded-md shadow-sm transition-shadow duration-300">
+                            <div className="text-xs text-[#000] bg-[#eee] px-2 py-1 rounded-md shadow-sm transition-shadow duration-300 font-black">
                               {item.numberOfPeople}
                             </div>
                           </div>
-                          <div className="text-xs text-black/70">
+                          <div className="text-xs text-black/70 font-black">
                             {item.description}
                           </div>
-                          <div className="text-xs text-black/50">
+                          <div className="text-xs text-black/50 font-black">
                             {item.hashtag &&
                               item.hashtag.map((tag) => `#${tag}`).join(" ")}
                           </div>
@@ -264,13 +273,12 @@ const RandomChoiceGame = () => {
                                 console.log("영상 링크가 없습니다.");
                               }
                             }}
-                            className="w-full text-[#000] bg-[#eee] hover:bg-[#e0e0e0]/30 px-2 py-1 text-xs rounded-md shadow-sm hover:shadow-md transition-shadow duration-300"
+                            className="w-full text-[#000] bg-[#eee] hover:bg-[#e0e0e0]/30 px-2 py-1 text-xs rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 font-black"
                             disabled={!item.videoUrl}
                           >
-                            {" "}
                             {item.videoUrl
                               ? "게임 설명 보기"
-                              : "게임 설명 없음"}{" "}
+                              : "게임 설명 없음"}
                           </button>
                         </div>
                       </div>
@@ -296,24 +304,29 @@ const RandomChoiceGame = () => {
               </button>
             </div>
             <div className="flex justify-center">
-              <h2 className="text-xl">🎉 랜덤~! 게임~! 🎉</h2>
+              <h2 className="text-2xl">🎉 랜덤~! 게임~! 🎉</h2>
             </div>
             <div className="flex justify-center mb-3">
-              <h2 className="text-xl">바로 이거 하러 가자!</h2>
+              <h2 className="text-2xl">바로 이거 하러 가자!</h2>
             </div>
             {selectedResult !== null && (
               <>
                 <div className="text-center mb-3">
-                  <p className="text-sm text-black/70">
-                    {images[selectedResult].whatGame}
+                  <p className="text-xs text-black/70">
+                    {images[selectedResult].whatGame &&
+                      images[selectedResult].whatGame[0]}
                   </p>
-                  <h3 className="text-lg text-black">
-                    {images[selectedResult].alt}
-                  </h3>
-                  <div className="text-xs text-[#000] bg-[#eee] px-2 py-1 text-xs rounded-md shadow-sm transition-shadow duration-300">
-                    {images[selectedResult].numberOfPeople}
+
+                  <div className="flex items-center justify-center space-x-2">
+                    <h3 className="text-xl text-black">
+                      {images[selectedResult].alt}
+                    </h3>
+                    <div className="text-xs text-[#000] bg-[#eee] px-2 py-1 rounded-md shadow-sm transition-shadow duration-300">
+                      {images[selectedResult].numberOfPeople}
+                    </div>
                   </div>
-                  <p className="text-sm text-black/70">
+
+                  <p className="text-sm text-black/70 mt-3">
                     {images[selectedResult].description}
                   </p>
                   <p className="text-sm text-black/70">
