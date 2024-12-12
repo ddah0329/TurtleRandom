@@ -145,15 +145,11 @@ const RandomChoiceGame = () => {
           <h2 className="text-lg md:text-xl text-black/90">
             결정을 못하는 당신을 위한! 랜덤~게임~!
           </h2>
-          <div className="mt-2 text-black/80 flex items-center justify-center gap-2">
-            <Trophy size={18} color="#FF0000" />
-            <span>**연속 {streak}번째 결정 중!**</span>
-          </div>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
           {/* Game Card */}
-          <div className="bg-white shadow-lg rounded-lg">
+          <div className="bg-white rounded-lg">
             <div className="p-4 md:p-6">
               {/* Circular Guide Overlay */}
               <div className="relative w-full aspect-square bg-white rounded-full mb-4 overflow-hidden">
@@ -201,16 +197,16 @@ const RandomChoiceGame = () => {
               <div className="flex justify-center gap-4">
                 <button
                   onClick={isRunning ? handleStop : handleRestart}
-                  className="w-full bg-[#000] hover:bg-[#05CC25] text-white px-6 py-4 text-lg rounded-full"
+                  className="w-full bg-[#000] hover:bg-[#07FF2F] text-white px-6 py-4 text-lg rounded-full"
                 >
-                  {isRunning ? "멈추기 🔥" : "다시하기 🔥"}
+                  {isRunning ? "🔥 멈추기 🔥" : "🔥 다시하기 🔥"}
                 </button>
               </div>
             </div>
           </div>
 
           {/* History Card */}
-          <div className="bg-white shadow-lg rounded-lg">
+          <div className="bg-white rounded-lg">
             <div className="p-4 md:p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg md:text-xl text-black">
@@ -234,7 +230,7 @@ const RandomChoiceGame = () => {
                     return (
                       <div
                         key={item.id}
-                        className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+                        className="flex items-center gap-3 p-3 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
                       >
                         <img
                           src={item.image}
@@ -249,7 +245,7 @@ const RandomChoiceGame = () => {
                             <span className="text-black text-sm md:text-base">
                               {item.selection}
                             </span>
-                            <div className="text-xs text-[#000] bg-[#eee] hover:bg-[#e0e0e0]/30 px-2 py-1 text-xs rounded-md shadow-sm hover:shadow-md transition-shadow duration-300">
+                            <div className="text-xs text-[#000] bg-[#eee] hover:bg-[#e0e0e0]/30 px-2 py-1 text-xs rounded-md shadow-sm transition-shadow duration-300">
                               {item.numberOfPeople}
                             </div>
                           </div>
@@ -302,8 +298,11 @@ const RandomChoiceGame = () => {
                 <X size={20} className="text-black" />
               </button>
             </div>
+            <div className="flex justify-center">
+              <h2 className="text-xl">🎉 랜덤~! 게임~! 🎉</h2>
+            </div>
             <div className="flex justify-center mb-3">
-              <h2 className="text-xl">🎉 당신의 선택!</h2>
+              <h2 className="text-xl">바로 이거 하러 가자!</h2>
             </div>
             {selectedResult !== null && (
               <>
