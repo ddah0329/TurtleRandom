@@ -60,6 +60,9 @@ const RandomChoiceGame = () => {
           alt: record.fields["게임 명"],
           description: record.fields["한줄 설명"] || "설명이 없습니다.",
           videoUrl: record.fields["영상 설명"] || "영상이 없습니다.",
+          hashtag: record.fields["장르"],
+          whatGame: record.fields["어떤 게임 좋아해요?"],
+          numberOfPeople: record.fields["인원수"],
         }));
 
         setImages(gameData);
@@ -98,6 +101,9 @@ const RandomChoiceGame = () => {
           image: images[selectedIndex].src,
           description: images[selectedIndex].description,
           videoUrl: images[selectedIndex].videoUrl,
+          hashtag: images[selectedIndex].hashtag,
+          whatGame: images[selectedIndex].whatGame,
+          numberOfPeople: images[selectedIndex].numberOfPeople,
         },
         ...history,
       ].slice(0, 10);
@@ -208,7 +214,7 @@ const RandomChoiceGame = () => {
             <div className="p-4 md:p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg md:text-xl text-black">
-                  최근 선택 기록
+                  🎯 최근 선택 기록
                 </h3>
                 <button
                   onClick={clearHistory}
@@ -224,42 +230,55 @@ const RandomChoiceGame = () => {
               ) : (
                 <div className="grid gap-3">
                   {history.map((item) => {
-                    console.log(item); // item 객체를 출력하여 videoUrl이 있는지 확인
+                    console.log(item);
                     return (
                       <div
                         key={item.id}
-                        className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
+                        className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
                       >
                         <img
                           src={item.image}
                           alt={item.selection}
-                          className="w-16 h-16 md:w-20 md:h-20 object-cover rounded"
+                          className="w-16 h-16 md:w-20 md:h-20 object-cover rounded shadow-sm"
                         />
                         <div className="flex-1">
+                          <div className="text-xs text-black">
+                            {item.whatGame}
+                          </div>
                           <div className="flex items-center gap-2 mb-1">
                             <span className="text-black text-sm md:text-base">
                               {item.selection}
                             </span>
-                            {/* videoUrl이 없어도 버튼을 항상 보이게 함 */}
-                            <button
-                              onClick={() => {
-                                if (item.videoUrl) {
-                                  window.open(item.videoUrl, "_blank");
-                                } else {
-                                  console.log("영상 링크가 없습니다.");
-                                }
-                              }}
-                              className="text-[#05CC25] border border-[#07FF2F] hover:bg-[#07FF2F]/30 px-2 py-1 text-xs rounded-md"
-                            >
-                              설명 영상
-                            </button>
+                            <div className="text-xs text-[#000] bg-[#eee] hover:bg-[#e0e0e0]/30 px-2 py-1 text-xs rounded-md shadow-sm hover:shadow-md transition-shadow duration-300">
+                              {item.numberOfPeople}
+                            </div>
                           </div>
                           <div className="text-xs text-black/70">
                             {item.description}
                           </div>
                           <div className="text-xs text-black/50">
+                            {item.hashtag &&
+                              item.hashtag.map((tag) => `#${tag}`).join(" ")}
+                          </div>
+                          <div className="text-xs text-black/50">
                             {item.timestamp}
                           </div>
+                          <button
+                            onClick={() => {
+                              if (item.videoUrl) {
+                                window.location.href = item.videoUrl;
+                              } else {
+                                console.log("영상 링크가 없습니다.");
+                              }
+                            }}
+                            className="w-full text-[#000] bg-[#eee] hover:bg-[#e0e0e0]/30 px-2 py-1 text-xs rounded-md shadow-sm hover:shadow-md transition-shadow duration-300"
+                            disabled={!item.videoUrl}
+                          >
+                            {" "}
+                            {item.videoUrl
+                              ? "게임 설명 보기"
+                              : "게임 설명 없음"}{" "}
+                          </button>
                         </div>
                       </div>
                     );
