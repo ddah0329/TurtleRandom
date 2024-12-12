@@ -2,7 +2,7 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <nav className="bg-white shadow-sm px-4 py-3 flex justify-between items-center">
+    <nav className="bg-white shadow-sm px-4 py-3 flex justify-between items-center relative">
       <div className="flex items-center">
         <span
           className="text-xl md:text-2xl text-black cursor-pointer"
@@ -13,7 +13,7 @@ const Navbar = () => {
           가맹문의
         </span>
       </div>
-      <div className="flex items-center">
+      <div className="absolute left-1/2 transform -translate-x-1/2 z-10">
         <span
           className="text-xl md:text-2xl text-black cursor-pointer"
           onClick={() =>

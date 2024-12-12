@@ -122,9 +122,10 @@ npm start
     Navbar.js       # 네비게이션 바 컴포넌트
   App.js            # 메인 애플리케이션 컴포넌트
   /assets
-    logo_heyTurtle.png   # 게임 로고 이미지
-    Search.png           # 검색 아이콘 이미지
+    navbar_heyTurtle.png   # 게임 로고 이미지
+    navbar_search.png           # 검색 아이콘 이미지
     circular-guide.png   # 회전 가이드 이미지
+    ...
   .env               # 환경 변수 설정 파일
   package.json       # 프로젝트 설정 파일
   README.md          # 프로젝트 설명 파일
