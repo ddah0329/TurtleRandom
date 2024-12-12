@@ -255,6 +255,7 @@ const App = () => {
           </div>
         </div>
       </div>
+
       {/* Dialog */}
       {isResultDialogOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
@@ -303,7 +304,7 @@ const App = () => {
                 <img
                   src={images[selectedResult].src}
                   alt={images[selectedResult].alt}
-                  className="w-60 h-60 mx-auto mb-3"
+                  className="w-60 h-60 mx-auto mb-3 rounded-lg"
                 />
               </>
             )}
