@@ -44,6 +44,7 @@ def fetch_all_airtable_data():
                     break  # 더 이상 데이터가 없으면 종료
             else:
                 print(f"Error: {response.status_code}")
+                print(response.text)
                 break
 
         return all_data
