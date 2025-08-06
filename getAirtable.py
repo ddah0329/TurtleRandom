@@ -1,4 +1,4 @@
-import requests
+import httpx
 import json
 from dotenv import load_dotenv
 import os
@@ -30,26 +30,25 @@ def fetch_all_airtable_data():
         'view': 'Grid view'  # 기본 뷰 사용, 필요시 변경
     }
 
-    while True:
-        response = requests.get(URL, headers=HEADERS, params=params)
-        if response.status_code == 200:
-            records = response.json()['records']
-            all_data.extend(records)  # 받아온 데이터 리스트에 추가
-            # 페이지네이션을 위해 다음 페이지가 있으면 계속해서 요청
-            offset = response.json().get('offset')
-            if offset:
-                params['offset'] = offset  # 다음 페이지의 offset 추가
+    with httpx.Client() as client:
+        while True:
+            response = client.get(URL, headers=HEADERS, params=params)
+            if response.status_code == 200:
+                records = response.json()['records']
+                all_data.extend(records)  # 받아온 데이터 리스트에 추가
+                # 페이지네이션을 위해 다음 페이지가 있으면 계속해서 요청
+                offset = response.json().get('offset')
+                if offset:
+                    params['offset'] = offset  # 다음 페이지의 offset 추가
+                else:
+                    break  # 더 이상 데이터가 없으면 종료
             else:
-                break  # 더 이상 데이터가 없으면 종료
-        else:
-            print(f"Error: {response.status_code}")
-            break
+                print(f"Error: {response.status_code}")
+                break
 
-    return all_data
+        return all_data
 
 # 데이터를 JSON 파일로 저장하는 함수
-
-
 def save_to_json(data, filename='airtable_data.json'):
     with open(filename, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
