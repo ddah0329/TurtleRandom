@@ -7,7 +7,7 @@ import axios from "axios";
 const App = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isRunning, setIsRunning] = useState(true);
-  const [setStreak] = useState(0);
+  const [streak, setStreak] = useState(0);
   const [history, setHistory] = useState([]);
   const [selectedResult, setSelectedResult] = useState(null);
   const [isResultDialogOpen, setIsResultDialogOpen] = useState(false);
@@ -29,15 +29,21 @@ const App = () => {
           }
         );
 
-        const gameData = response.data.records.map((record) => ({
-          src: record.fields.image[0].url,
-          alt: record.fields["게임 명"],
-          description: record.fields["한줄 설명"] || "설명이 없습니다.",
-          videoUrl: record.fields["영상 설명"] || "영상이 없습니다.",
-          hashtag: record.fields["장르"],
-          whatGame: record.fields["어떤 게임 좋아해요?"],
-          numberOfPeople: record.fields["인원수"],
-        }));
+        const gameData = response.data.records.map((record) => {
+          const fields = record.fields;
+          // ?. (Optional chaining) 을 사용하면 image 필드가 없거나 배열이 비어 있어도 에러 없이 처리된다.
+          const imageUrl = fields.image?.[0]?.url ?? ""; 
+
+          return {
+            src: imageUrl,
+            alt: fields["게임 명"] ?? "제목 없음",
+            description: fields["한줄 설명"] ?? "설명이 없습니다.",
+            videoUrl: fields["영상 설명"] ?? "",
+            hashtag: fields["장르"] ?? [],
+            whatGame: fields["어떤 게임 좋아해요?"] ?? [],
+            numberOfPeople: fields["인원수"] ?? "인원 미정",
+          };
+        });
 
         setImages(gameData);
       } catch (error) {
@@ -150,7 +156,7 @@ const App = () => {
                 />
 
                 {/* 애니메이션 스타일 추가 */}
-                <style jsx>{`
+                <style>{`
                   .circular-guide-spin {
                     animation: spin 15s linear infinite;
                   }
@@ -198,7 +204,6 @@ const App = () => {
               ) : (
                 <div className="grid gap-3">
                   {history.map((item) => {
-                    console.log(item);
                     return (
                       <div
                         key={item.id}
@@ -233,7 +238,7 @@ const App = () => {
                           <button
                             onClick={() => {
                               if (item.videoUrl) {
-                                window.location.href = item.videoUrl;
+                                window.open(item.videoUrl, "_blank");
                               } else {
                                 console.log("영상 링크가 없습니다.");
                               }
@@ -296,9 +301,7 @@ const App = () => {
                   </p>
                   <p className="text-sm text-black/70">
                     {images[selectedResult].hashtag &&
-                      images[selectedResult].hashtag
-                        .map((tag) => `#${tag}`)
-                        .join(" ")}
+                      images[selectedResult].hashtag?.map((tag) => `#${tag}`).join(" ")}
                   </p>
                 </div>
                 <img
