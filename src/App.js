@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Trophy, X } from "lucide-react";
+import { X } from "lucide-react";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import axios from "axios";
@@ -7,7 +7,7 @@ import axios from "axios";
 const App = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isRunning, setIsRunning] = useState(true);
-  const [streak, setStreak] = useState(0);
+  const [setStreak] = useState(0);
   const [history, setHistory] = useState([]);
   const [selectedResult, setSelectedResult] = useState(null);
   const [isResultDialogOpen, setIsResultDialogOpen] = useState(false);
